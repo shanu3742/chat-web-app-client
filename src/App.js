@@ -1,13 +1,15 @@
+import ChartRoutes from './ChartRoutes';
+import { useResizeContext } from './context/resizeContext';
 import UserContext from './context/userContext';
-import Chat from './page/Chat/Chat';
+
 
 function App() {
-  
+const size=   useResizeContext();
+console.log('size',size)
   return (
     <UserContext>
     <div className="App">
-      <h1>hello shanu </h1>
-      <Chat />
+      <ChartRoutes />
     </div>
     </UserContext>
    
