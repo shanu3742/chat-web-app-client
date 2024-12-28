@@ -1,8 +1,9 @@
 import React from 'react'
+import AuthLayout from '../../layout/AuthLayout/AuthLayout'
 
 const SignUp = () => {
   return (
-    <div>SignUp</div>
+    <AuthLayout pageTitle='Create Account' pageDescription='Create an account and explore app'>SignUp</AuthLayout>
   )
 }
 

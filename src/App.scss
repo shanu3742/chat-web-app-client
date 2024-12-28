@@ -1,0 +1,25 @@
+
+/* animations.css */
+
+.page-enter {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  
+  .page-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  }
+  
+  .page-exit {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .page-exit-active {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+  }
+  

@@ -1,15 +1,21 @@
-import ChartRoutes from './ChartRoutes';
+import ChatRoutes from './ChartRoutes';
 import { useResizeContext } from './context/resizeContext';
 import UserContext from './context/userContext';
+import './App.scss'
+import { Slide } from "@mui/material";
+
 
 
 function App() {
-const size=   useResizeContext();
-console.log('size',size)
+
   return (
     <UserContext>
     <div className="App">
-      <ChartRoutes />
+    <Slide direction="left" in={true} mountOnEnter unmountOnExit>
+      <div>
+        <ChatRoutes />
+      </div>
+    </Slide>
     </div>
     </UserContext>
    

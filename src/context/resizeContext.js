@@ -40,7 +40,7 @@ const ResizeProvider = ({ children }) => {
         };
 
         window.addEventListener('resize', handleResize);
-        updateDeviceSize();
+       // updateDeviceSize();
 
         return () => {
             if (timerId) clearTimeout(timerId);

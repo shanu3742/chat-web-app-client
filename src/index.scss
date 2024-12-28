@@ -1,0 +1,99 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
+:root {
+  /* Mingle Primary, Danger, and Success Colors */
+  --mingle-primary-color: #1F41BB;
+  --mingle-danger-color: #BB1F2D;
+  --mingle-success-color: #1FBB65;
+
+  /* Font Size Variables with Mingle Prefix */
+  
+  /* Small Sizes */
+  --mingle-font-xx-small: 10px;
+  --mingle-font-x-small: 12px;
+  --mingle-font-small: 15px;
+
+  /* Normal Sizes */
+  --mingle-font-normal: 16px;
+  --mingle-font-x-normal: 22px;
+
+  /* Medium Size */
+  --mingle-font-medium: 17px;
+
+  /* Large Sizes */
+  --mingle-font-large: 22px;
+  --mingle-font-x-large: 28px;
+  --mingle-font-xx-large: 32px;
+  --mingle-font-xxx-large: 36px;
+  --mingle-font-xxxx-large: 40px;
+}
+
+/* Text Color Classes */
+.mingle-primary-text {
+  color: var(--mingle-primary-color);
+}
+
+.mingle-danger-text {
+  color: var(--mingle-danger-color);
+}
+
+.mingle-success-text {
+  color: var(--mingle-success-color);
+}
+
+/* Font Size Classes */
+
+/* Small Sizes */
+.mingle-font-xx-small {
+  font-size: var(--mingle-font-xx-small);
+}
+
+.mingle-font-x-small {
+  font-size: var(--mingle-font-x-small);
+}
+
+.mingle-font-small {
+  font-size: var(--mingle-font-small);
+}
+
+/* Normal Sizes */
+.mingle-font-normal {
+  font-size: var(--mingle-font-normal);
+}
+
+.mingle-font-x-normal {
+  font-size: var(--mingle-font-x-normal);
+}
+
+/* Medium Size */
+.mingle-font-medium {
+  font-size: var(--mingle-font-medium);
+}
+
+/* Large Sizes */
+.mingle-font-large {
+  font-size: var(--mingle-font-large);
+}
+
+.mingle-font-x-large {
+  font-size: var(--mingle-font-x-large);
+}
+
+.mingle-font-xx-large {
+  font-size: var(--mingle-font-xx-large);
+}
+
+.mingle-font-xxx-large {
+  font-size: var(--mingle-font-xxx-large);
+}
+
+.mingle-font-xxxx-large {
+  font-size: var(--mingle-font-xxxx-large);
+}
