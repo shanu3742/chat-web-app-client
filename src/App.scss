@@ -1,6 +1,10 @@
 
 /* animations.css */
-
+*{
+  margin: 0%;
+  padding: 0%;
+  box-sizing: border-box;
+}
 .page-enter {
     transform: translateX(100%);
     opacity: 0;
