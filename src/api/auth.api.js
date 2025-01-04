@@ -1,5 +1,5 @@
 import axios from 'axios'
-import APP_CONFIG from '../config/app.config'
+import { APP_CONFIG } from '../config';
 
 const onLogin = async (email,password) => {
     try{
@@ -8,9 +8,10 @@ const onLogin = async (email,password) => {
             password:password
         });
         let  data= result.data;
-        return data
+        return Promise.resolve(data)
     }catch(e){
-        return e?.response?.data?.message??e?.message;
+        const errorMessage = e?.response?.data?.message || e?.message || 'An unexpected error occurred';
+        return Promise.reject(errorMessage);
     }
 
 }
