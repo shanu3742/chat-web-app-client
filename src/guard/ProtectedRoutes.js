@@ -1,9 +1,14 @@
+//react import
 import React from "react";
+//react router import 
 import { Navigate, Outlet } from "react-router-dom";
-import { getUserContext } from "../../context/userContext";
+//app file import
+import { getUserContext } from "../context/userContext";
 
 const ProtectedRoutes = ({ defaultPath = "/app/user/signin", children }) => {
+  //context and third party hooks
   const {user} = getUserContext()
+  // page ui
   if (!user) {
     return <Navigate to={defaultPath} replace />;
   } 

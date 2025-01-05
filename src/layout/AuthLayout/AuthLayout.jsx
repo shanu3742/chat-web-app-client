@@ -1,8 +1,12 @@
+//react import
 import React from "react";
+//react router import 
+import { NavLink } from "react-router-dom";
+//file scss
+import "./AuthLayout.scss";
+//app file import
 import { useResizeContext } from "../../context/resizeContext";
 import LoginSvg from "../../Assets/auth.svg";
-import { NavLink } from "react-router-dom";
-import "./AuthLayout.scss";
 
 const AuthLayout = ({
   pageTitle = "title of Page",
@@ -10,7 +14,9 @@ const AuthLayout = ({
   descriptionClassName = "font-x-small",
   children,
 }) => {
+  //context and third party hooks
   const deviceDimension = useResizeContext();
+  // page ui
   return (
     <div className="w-screen h-screen grid grid-cols-12">
       {deviceDimension.deviceType >= 2 && (

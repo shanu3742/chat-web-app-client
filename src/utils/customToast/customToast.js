@@ -1,3 +1,4 @@
+//import react toastify
 import {  toast,Bounce } from 'react-toastify';
 const showToast = (message, type = 'success', options = {}) => {
     const toastOptions = {

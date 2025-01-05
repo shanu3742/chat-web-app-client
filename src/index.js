@@ -1,11 +1,14 @@
+// react import 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+//import react router
 import { BrowserRouter } from 'react-router-dom';
-
-import ResizeProvider from './context/resizeContext';
+//import scss
+import './index.scss';
+//app file import
+import App from './App';
+import { ResizeProvider } from './context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

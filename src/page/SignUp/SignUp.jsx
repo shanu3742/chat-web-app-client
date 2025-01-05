@@ -1,5 +1,7 @@
+//react import
 import React from 'react'
-import AuthLayout from '../../layout/AuthLayout/AuthLayout'
+//app file import
+import { AuthLayout } from '../../layout'
 
 const SignUp = () => {
   return (

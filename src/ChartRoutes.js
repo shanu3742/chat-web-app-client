@@ -1,6 +1,9 @@
+//react import
 import React from 'react'
+//react router import
 import {  Routes, Route, Navigate } from 'react-router-dom';
-import ProtectedRoutes from './utils/component/ProtectedRoutes';
+//app file import
+import ProtectedRoutes from './guard/ProtectedRoutes';
 import SignIn from './page/SignIn/SignIn';
 import SignUp from './page/SignUp/SignUp';
 

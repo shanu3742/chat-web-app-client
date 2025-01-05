@@ -1,5 +1,6 @@
+//react import
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
+//DEFAULT VALUE
 const SMALL_SCREEN_WIDTH = 425;
 const MEDIUM_SCREEN_WIDTH = 1024;
 const LARGE_SCREEN_WIDTH = 1440;
@@ -10,20 +11,22 @@ const LARGE_SCREEN = 3;
 
 const DEBOUNCE_TIME = 200;
 
-const ResizeContext = createContext();
-
+//device type getter
 const getDeviceType = (width) => {
     if (width <= SMALL_SCREEN_WIDTH) return SMALL_SCREEN;
     if (width <= MEDIUM_SCREEN_WIDTH) return MEDIUM_SCREEN;
     return LARGE_SCREEN;
 };
 
+// create context
+const ResizeContext = createContext();
+//context component
 const ResizeProvider = ({ children }) => {
     const [deviceSize, setDeviceSize] = useState({
         size: window.innerWidth,
         deviceType: getDeviceType(window.innerWidth),
     });
-
+//life cycle effect
     useEffect(() => {
         const updateDeviceSize = () => {
             const width = window.innerWidth;
@@ -54,7 +57,7 @@ const ResizeProvider = ({ children }) => {
         </ResizeContext.Provider>
     );
 };
-
+//context value getter
 export const useResizeContext = () => {
     return useContext(ResizeContext);
 };
