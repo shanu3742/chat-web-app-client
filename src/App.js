@@ -6,8 +6,11 @@ import './App.scss';
 import ChatRoutes from './ChartRoutes';
 import { UserContext } from './context';
 import { PageSliderLayout } from './layout';
+import React from 'react';
+
 
 function App() {
+ 
   return (
     <UserContext>
       <div className="App">

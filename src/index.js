@@ -9,15 +9,18 @@ import './index.scss';
 //app file import
 import App from './App';
 import { ResizeProvider } from './context';
+import FireBaseProvider from './context/firebaseContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+  <FireBaseProvider>
   <BrowserRouter>
   <ResizeProvider>
      <App />
   </ResizeProvider>
   </BrowserRouter>
+  </FireBaseProvider>
   </React.StrictMode>
 );
 

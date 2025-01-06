@@ -93,3 +93,134 @@
 .mingle-font-xxxx-large {
   font-size: var(--mingle-font-xxxx-large);
 }
+
+/* Base flex class */
+.mingle-flex {
+  display: flex;
+}
+
+/* Flex direction utilities */
+.mingle-column {
+  @extend .mingle-flex;
+  flex-direction: column;
+}
+
+.mingle-row {
+  @extend .mingle-flex;
+  flex-direction: row;
+}
+
+.mingle-row-reverse {
+  @extend .mingle-flex;
+  flex-direction: row-reverse;
+}
+
+.mingle-column-reverse {
+  @extend .mingle-flex;
+  flex-direction: column-reverse;
+}
+
+/* Alignment utilities */
+.mingle-center {
+  @extend .mingle-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mingle-align-items-center {
+  @extend .mingle-flex;
+  align-items: center;
+}
+
+.mingle-align-items-start {
+  @extend .mingle-flex;
+  align-items: flex-start;
+}
+
+.mingle-align-items-end {
+  @extend .mingle-flex;
+  align-items: flex-end;
+}
+
+.mingle-align-items-baseline {
+  @extend .mingle-flex;
+  align-items: baseline;
+}
+
+.mingle-align-items-stretch {
+  @extend .mingle-flex;
+  align-items: stretch;
+}
+
+/* Justify content utilities */
+.mingle-justify-content-center {
+  @extend .mingle-flex;
+  justify-content: center;
+}
+
+.mingle-justify-content-start {
+  @extend .mingle-flex;
+  justify-content: flex-start;
+}
+
+.mingle-justify-content-end {
+  @extend .mingle-flex;
+  justify-content: flex-end;
+}
+
+.mingle-justify-content-between {
+  @extend .mingle-flex;
+  justify-content: space-between;
+}
+
+.mingle-justify-content-around {
+  @extend .mingle-flex;
+  justify-content: space-around;
+}
+
+.mingle-justify-content-evenly {
+  @extend .mingle-flex;
+  justify-content: space-evenly;
+}
+
+/* Align self utilities */
+.mingle-align-self-center {
+  @extend .mingle-flex;
+  align-self: center;
+}
+
+.mingle-align-self-start {
+  @extend .mingle-flex;
+  align-self: flex-start;
+}
+
+.mingle-align-self-end {
+  @extend .mingle-flex;
+  align-self: flex-end;
+}
+
+.mingle-align-self-baseline {
+  @extend .mingle-flex;
+  align-self: baseline;
+}
+
+.mingle-align-self-stretch {
+  @extend .mingle-flex;
+  align-self: stretch;
+}
+
+/* Wrap utilities */
+.mingle-wrap {
+  @extend .mingle-flex;
+  flex-wrap: wrap;
+}
+
+.mingle-wrap-reverse {
+  @extend .mingle-flex;
+  flex-wrap: wrap-reverse;
+}
+
+.mingle-nowrap {
+  @extend .mingle-flex;
+  flex-wrap: nowrap;
+}

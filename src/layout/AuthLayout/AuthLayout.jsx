@@ -1,12 +1,18 @@
 //react import
-import React from "react";
+import React, { memo } from "react";
 //react router import 
 import { NavLink } from "react-router-dom";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+// matrial ui  import
+import { Button, Divider } from "@mui/material";
+import GoogleIcon from '@mui/icons-material/Google';
 //file scss
 import "./AuthLayout.scss";
 //app file import
 import { useResizeContext } from "../../context/resizeContext";
 import LoginSvg from "../../Assets/auth.svg";
+import { useFirebaseContext } from "../../context/firebaseContext";
+
 
 const AuthLayout = ({
   pageTitle = "title of Page",
@@ -16,6 +22,18 @@ const AuthLayout = ({
 }) => {
   //context and third party hooks
   const deviceDimension = useResizeContext();
+  const {firebaseInstance,fbAnalytics,fbAuth,fbProvider} = useFirebaseContext()
+
+  
+   
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(fbAuth, fbProvider);
+      console.log('User Info:', result.user);
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  };
   // page ui
   return (
     <div className="w-screen h-screen grid grid-cols-12">
@@ -58,9 +76,16 @@ const AuthLayout = ({
           </div>
         </div>
         <div>{children}</div>
+        <Divider>OR</Divider>
+        <div class="flex justify-center my-4">
+          <Button variant="outlined" startIcon={<GoogleIcon />} onClick={handleGoogleLogin}>
+          Continue With Google
+        </Button>
+        </div>
+
       </div>
     </div>
   );
 };
 
-export default AuthLayout;
+export default memo(AuthLayout);
