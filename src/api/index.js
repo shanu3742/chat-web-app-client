@@ -1,3 +1,4 @@
-import { onLogin } from "./auth.api";
+import { onGoogleLogin, onLogin } from "./auth.api";
 
-export {onLogin}
+
+export {onLogin,onGoogleLogin}

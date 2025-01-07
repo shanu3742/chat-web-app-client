@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import React, { createContext, useContext } from "react";
-import { useState } from "react";
 const fbProvider = new GoogleAuthProvider();
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,21 +26,14 @@ const onFireBaseInit = () => {
     const auth = getAuth(firebaseAppInstance);
     return  {firebaseAppInstance,analytics,auth}
 }
-
+let {firebaseAppInstance,analytics,auth} = onFireBaseInit();
 const FirebaseContext = createContext();
 const FireBaseProvider= ({children}) => {
-  const [firebaseInstance,setFirebaseInstance] = useState(null);
-  const [fbAnalytics,setFbAnalytics] = useState(null);
-  const [fbAuth,setFbAuth] = useState(null);
-  React.useEffect(() => {
-  let {firebaseAppInstance,analytics,auth} = onFireBaseInit();
-  setFirebaseInstance(firebaseAppInstance);
-  setFbAnalytics(analytics);
-  setFbAuth(auth)
-  },[])
+ 
+ 
   return (
-    <FirebaseContext.Provider value={{firebaseInstance,fbAnalytics,fbAuth,fbProvider}}>
-    {children}
+    <FirebaseContext.Provider value={{firebaseAppInstance,analytics,auth,fbProvider}}>
+      {children}
     </FirebaseContext.Provider>
   )
 

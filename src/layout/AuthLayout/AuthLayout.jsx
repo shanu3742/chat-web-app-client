@@ -1,8 +1,8 @@
 //react import
 import React, { memo } from "react";
 //react router import 
-import { NavLink } from "react-router-dom";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { NavLink, useNavigate } from "react-router-dom";
+import {signInWithPopup } from 'firebase/auth';
 // matrial ui  import
 import { Button, Divider } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
@@ -12,6 +12,9 @@ import "./AuthLayout.scss";
 import { useResizeContext } from "../../context/resizeContext";
 import LoginSvg from "../../Assets/auth.svg";
 import { useFirebaseContext } from "../../context/firebaseContext";
+import { onGoogleLogin } from "../../api";
+import { ErrorToast, SuccessToast } from "../../utils";
+import { getUserContext } from "../../context";
 
 
 const AuthLayout = ({
@@ -22,16 +25,32 @@ const AuthLayout = ({
 }) => {
   //context and third party hooks
   const deviceDimension = useResizeContext();
-  const {firebaseInstance,fbAnalytics,fbAuth,fbProvider} = useFirebaseContext()
-
-  
+  const {auth,fbProvider} = useFirebaseContext()
+  const {setUser} = getUserContext();
+  const navigate = useNavigate();
    
   const handleGoogleLogin = async () => {
     try {
-      const result = await signInWithPopup(fbAuth, fbProvider);
+      const result = await signInWithPopup(auth, fbProvider);
       console.log('User Info:', result.user);
+      let userData = await onGoogleLogin({
+        name:result.user.displayName,
+        email:result.user.email,
+        emailVerified:result.user.emailVerified,
+        googleId:result.user.uid,
+        photoURL:result.user.photoURL
+
+      })
+
+      console.log('google created user in database',userData)
+      SuccessToast('Login Successful')
+      setUser(result);
+      //navigate to chat page if all login successfull
+      navigate('/app/chat')
+
     } catch (error) {
       console.error('Error during login:', error);
+      ErrorToast(error)
     }
   };
   // page ui
