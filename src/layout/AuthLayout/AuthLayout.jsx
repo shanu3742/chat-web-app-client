@@ -26,7 +26,7 @@ const AuthLayout = ({
   //context and third party hooks
   const deviceDimension = useResizeContext();
   const {auth,fbProvider} = useFirebaseContext()
-  const {setUser} = getUserContext();
+  const {updateUser} = getUserContext();
   const navigate = useNavigate();
    
   const handleGoogleLogin = async () => {
@@ -44,7 +44,7 @@ const AuthLayout = ({
 
       console.log('google created user in database',userData)
       SuccessToast('Login Successful')
-      setUser(result);
+      updateUser(result);
       //navigate to chat page if all login successfull
       navigate('/app/chat')
 

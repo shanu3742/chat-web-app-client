@@ -27,7 +27,7 @@ const [loginInfo,setLoginInfo] =useState({
 const [showPassword, setShowPassword] = React.useState(false);
 
 //context and third party hooks
-const {setUser} = getUserContext();
+const {updateUser} = getUserContext();
 const navigate = useNavigate();
 
 // event handle
@@ -44,7 +44,7 @@ const handleClickShowPassword = () => setShowPassword((show) => !show);
     try{
      let  result = await onLogin(loginInfo.email,loginInfo.password);
      SuccessToast('Login Successful')
-     setUser(result);
+     updateUser(result);
      //navigate to chat page if all login successfull
      navigate('/app/chat')
     }catch(e){

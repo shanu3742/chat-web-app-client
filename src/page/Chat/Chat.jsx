@@ -3,7 +3,7 @@ import Message from '../Message/Message'
 import { getUserContext } from '../../context/userContext';
 
 const Chat = () => {
-  const {user,setUser} = getUserContext();
+  const {user,updateUser} = getUserContext();
   // console.log(userData)
   return (
    <Message />

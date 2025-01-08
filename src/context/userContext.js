@@ -7,9 +7,19 @@ const userContext = createContext()
 // context component
 const UserContext = ({children}) => {
   // context value
-  const [user,setUser] = useState(null)
+  const [user,setUser] = useState(null);
+
+  //setUser Data 
+  const updateUser = (userInfo) => {
+    setUser(userInfo)
+  }
+
+  //logout user 
+  const onLogOut = () => {
+    setUser(null)
+  }
   return (
-    <userContext.Provider value={{user,setUser}}>{children}</userContext.Provider>
+    <userContext.Provider value={{user,updateUser,onLogOut}}>{children}</userContext.Provider>
   )
 }
 //context value getter
