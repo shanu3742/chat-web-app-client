@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { APP_CONFIG } from '../config';
+import { APP_CONFIG } from '../../config';
 
 const onLogin = async (email,password) => {
     try{
@@ -11,7 +11,7 @@ const onLogin = async (email,password) => {
         return Promise.resolve(data)
     }catch(e){
         const errorMessage = e?.response?.data?.message || e?.message || 'An unexpected error occurred';
-        return Promise.reject(errorMessage);
+        return Promise.reject({errorMessage,error:e});
     }
 
 }
@@ -29,7 +29,7 @@ const onGoogleLogin = async ({email,name,googleId,emailVerified,photoURL}) => {
         return Promise.resolve(data)
     }catch(e){
         const errorMessage = e?.response?.data?.message || e?.message || 'An unexpected error occurred';
-        return Promise.reject(errorMessage);
+        return Promise.reject({errorMessage,error:e});
     }
 
 }

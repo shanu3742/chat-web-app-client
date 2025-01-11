@@ -41,16 +41,14 @@ const AuthLayout = ({
         photoURL:result.user.photoURL
 
       })
-
-      console.log('google created user in database',userData)
       SuccessToast('Login Successful')
-      updateUser(result);
+      updateUser(userData);
       //navigate to chat page if all login successfull
       navigate('/app/chat')
 
     } catch (error) {
-      console.error('Error during login:', error);
-      ErrorToast(error)
+      let {errorMessage}= error;
+      ErrorToast(errorMessage)
     }
   };
   // page ui

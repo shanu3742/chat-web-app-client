@@ -24,6 +24,7 @@ const [loginInfo,setLoginInfo] =useState({
   email:'',
   password:''
 })
+const [loginAttempt,setLoginAttempt]= useState(5);
 const [showPassword, setShowPassword] = React.useState(false);
 
 //context and third party hooks
@@ -48,7 +49,10 @@ const handleClickShowPassword = () => setShowPassword((show) => !show);
      //navigate to chat page if all login successfull
      navigate('/app/chat')
     }catch(e){
-     ErrorToast(e)
+      let {errorMessage,error}= e;
+      let loginAttemptRemaning = error.response.headers['ratelimit-remaining'];
+      setLoginAttempt(+loginAttemptRemaning)
+      ErrorToast(errorMessage)
     }finally{
       setIsloading(false)
     }
@@ -65,7 +69,8 @@ const handleClickShowPassword = () => setShowPassword((show) => !show);
 // page ui
   return (
     <AuthLayout pageTitle='Login here' pageDescription='Welcome back you’ve been missed!' descriptionClassName='mingle-font-normal font-bold'>
-    <form className='py-4 px-4' onSubmit={onUserLogin}  >
+    <form className='py-4 px-4 relative' onSubmit={onUserLogin}  >
+      {loginAttempt<5 && <h5 className='w-full flex justify-center absolute font-bold bottom-0 left-0 mingle-danger-text'> {loginAttempt} Login Attempt Remaning.</h5>}
       <div className='my-4'>
         <TextField id="standard-basic"  name="email"  autoComplete="email" value={loginInfo.email} label="Enter Email/user id" variant="outlined" size="small" fullWidth onChange={(e) => onInputUpdate(e)} />
       </div>
