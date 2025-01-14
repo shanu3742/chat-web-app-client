@@ -14,7 +14,8 @@ import LoginSvg from "../../Assets/auth.svg";
 import { useFirebaseContext } from "../../context/firebaseContext";
 import { onGoogleLogin } from "../../api";
 import { ErrorToast, SuccessToast } from "../../utils";
-import { getUserContext } from "../../context";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 
 
 const AuthLayout = ({
@@ -25,31 +26,42 @@ const AuthLayout = ({
 }) => {
   //context and third party hooks
   const deviceDimension = useResizeContext();
-  const {auth,fbProvider} = useFirebaseContext()
-  const {updateUser} = getUserContext();
+  const {auth,fbProvider} = useFirebaseContext();
+  const queryClient = useQueryClient();
+ 
   const navigate = useNavigate();
-   
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, fbProvider);
-      console.log('User Info:', result.user);
-      let userData = await onGoogleLogin({
-        name:result.user.displayName,
-        email:result.user.email,
-        emailVerified:result.user.emailVerified,
-        googleId:result.user.uid,
-        photoURL:result.user.photoURL
-
-      })
+  const mutation = useMutation({
+    mutationKey:['auth','google','login'],
+    mutationFn:onGoogleLogin,
+    onSuccess:(data) => {
       SuccessToast('Login Successful')
-      updateUser(userData);
       //navigate to chat page if all login successfull
+      console.log('google data',data);
+      queryClient.setQueryData(['auth','login'], data);
       navigate('/app/chat')
-
-    } catch (error) {
+    },
+    onError:(error) => {
       let {errorMessage}= error;
+      console.log(error)
       ErrorToast(errorMessage)
     }
+  });
+   
+  const handleGoogleLogin =  () => {
+      signInWithPopup(auth, fbProvider).then((googleLoginInfo) => {
+        mutation.mutate({
+          name:googleLoginInfo.user.displayName,
+          email:googleLoginInfo.user.email,
+          emailVerified:googleLoginInfo.user.emailVerified,
+          googleId:googleLoginInfo.user.uid,
+          photoURL:googleLoginInfo.user.photoURL
+  
+        })
+      }).catch((err) => {
+        ErrorToast(err)
+      })
+      
+      
   };
   // page ui
   return (

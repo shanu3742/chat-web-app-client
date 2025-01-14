@@ -1,9 +1,12 @@
 import axios from 'axios'
 import { APP_CONFIG } from '../../config';
 
-const onLogin = async (email,password) => {
+const authApi = axios.create({
+    baseURL:`${APP_CONFIG.backend_uri}/chat/api/v1/user/`
+})
+const onLogin = async ({email,password}) => {
     try{
-        let result = await  axios.post(`${APP_CONFIG.backend_uri}/chat/api/v1/user/login`,{
+        let result = await  authApi.post('login',{
             email:email,
             password:password
         });
@@ -18,7 +21,7 @@ const onLogin = async (email,password) => {
 
 const onGoogleLogin = async ({email,name,googleId,emailVerified,photoURL}) => {
     try{
-        let result = await  axios.post(`${APP_CONFIG.backend_uri}/chat/api/v1/user/googlelogin`,{
+        let result = await  authApi.post('googlelogin',{
             email,
             name,
             googleId,

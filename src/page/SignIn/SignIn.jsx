@@ -11,51 +11,58 @@ import LoadingButton from '@mui/lab/LoadingButton';
 //app file import
 import { AuthLayout } from '../../layout';
 import { onLogin } from '../../api';
-import { getUserContext } from '../../context';
 import { ErrorToast,SuccessToast } from '../../utils';
 import { loginValidationConfig , validate} from '../../config';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
 
 const SignIn = () => {
 // state define 
-const [isLoading,setIsloading] = useState(false);
+
 const [loginInfo,setLoginInfo] =useState({
   email:'',
   password:''
 })
+const queryClient = useQueryClient();
 const [loginAttempt,setLoginAttempt]= useState(5);
 const [showPassword, setShowPassword] = React.useState(false);
 
 //context and third party hooks
-const {updateUser} = getUserContext();
 const navigate = useNavigate();
 
 // event handle
 const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const onUserLogin = async (e) => {
+
+const mutation = useMutation({
+  mutationKey:['auth','email','login'],
+  mutationFn:onLogin,
+  onSuccess:(data) => {
+    SuccessToast('Login Successful')
+    queryClient.setQueryData(['auth','login'], data);
+    navigate('/app/chat')
+  },
+  onError:(err) => {
+    let {errorMessage,error}= err;
+    let loginAttemptRemaning = error.response.headers['ratelimit-remaining'];
+    setLoginAttempt(+loginAttemptRemaning)
+    ErrorToast(errorMessage)
+  }
+
+})
+
+const onUserLogin =  (e) => {
     e.preventDefault()
-    setIsloading(true)
     const validation = validate(loginInfo, loginValidationConfig.loginInfoRules, loginValidationConfig.loginInfoMessages);
     if(!validation.isValid){
       ErrorToast(validation.errors);
-      setIsloading(false)
       return
     }
-    try{
-     let  result = await onLogin(loginInfo.email,loginInfo.password);
-     SuccessToast('Login Successful')
-     updateUser(result);
-     //navigate to chat page if all login successfull
-     navigate('/app/chat')
-    }catch(e){
-      let {errorMessage,error}= e;
-      let loginAttemptRemaning = error.response.headers['ratelimit-remaining'];
-      setLoginAttempt(+loginAttemptRemaning)
-      ErrorToast(errorMessage)
-    }finally{
-      setIsloading(false)
-    }
+    
+    mutation.mutate(loginInfo)
+    // do call mutated here 
+    
+    
   }
 
   
@@ -65,7 +72,7 @@ const handleClickShowPassword = () => setShowPassword((show) => !show);
     return {...p,[name]:value}
    })
   }
- 
+
 // page ui
   return (
     <AuthLayout pageTitle='Login here' pageDescription='Welcome back you’ve been missed!' descriptionClassName='mingle-font-normal font-bold'>
@@ -107,7 +114,7 @@ const handleClickShowPassword = () => setShowPassword((show) => !show);
         </Button>
       </div>
       <div className='my-4 flex justify-center'>
-        <LoadingButton loading={isLoading} disabled={isLoading} type='submit' variant="contained" sx={{background:'var(--mingle-primary-color)',width:'100%'}} startIcon={<LoginIcon />}>Log in</LoadingButton>
+        <LoadingButton loading={mutation.isPending} disabled={mutation.isPending} type='submit' variant="contained" sx={{background:'var(--mingle-primary-color)',width:'100%'}} startIcon={<LoginIcon />}>Log in</LoadingButton>
       </div>
     </form>
     </AuthLayout>

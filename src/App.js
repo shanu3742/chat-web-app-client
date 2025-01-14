@@ -1,25 +1,30 @@
 // import react toastify
 import { ToastContainer } from 'react-toastify';
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 //import file scss
 import './App.scss';
 ////app file import 
 import ChatRoutes from './ChartRoutes';
-import { UserContext } from './context';
 import { PageSliderLayout } from './layout';
 import React from 'react';
 
 
 function App() {
- 
+  const queryClient = new QueryClient()
   return (
-    <UserContext>
-      <div className="App">
-        <ToastContainer />
-        <PageSliderLayout>
-          <ChatRoutes  />
-        </PageSliderLayout>
-      </div>
-    </UserContext>
+    <QueryClientProvider client={queryClient}>
+        <div className="App">
+          <ToastContainer />
+          <PageSliderLayout>
+            <ChatRoutes  />
+          </PageSliderLayout>
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
