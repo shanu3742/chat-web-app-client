@@ -1,12 +1,17 @@
 import React from 'react'
 import Message from '../Message/Message'
-import { getUserContext } from '../../context/userContext';
+import useAuth from '../../hooks/useAuth'
+
 
 const Chat = () => {
-  const {user,updateUser} = getUserContext();
   // console.log(userData)
+  const {logout} = useAuth()
   return (
-   <Message />
+    <>
+    <Message />
+    <button onClick={logout}>logout</button>
+    </>
+ 
   )
 }
 

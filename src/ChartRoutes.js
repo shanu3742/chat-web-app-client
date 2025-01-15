@@ -6,6 +6,7 @@ import {  Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoutes from './guard/ProtectedRoutes';
 import SignIn from './page/SignIn/SignIn';
 import SignUp from './page/SignUp/SignUp';
+import Chat from './page/Chat/Chat';
 
 const ChatRoutes = () => {
   
@@ -13,7 +14,7 @@ const ChatRoutes = () => {
   <Routes >
      <Route path="/" element={<Navigate to="/app/chat" replace />} />
      <Route element={<ProtectedRoutes defaultPath={"/app/user/signin"} />}>
-       <Route path="/app/chat" element={<h1>app chat page</h1>} />
+       <Route path="/app/chat" element={<Chat />} />
      </Route>
      <Route path="/app/user/signin" element={ <SignIn />} />
      <Route path="/app/user/signup" element={<SignUp />} />

@@ -1,7 +1,7 @@
 //react import
 import React, { memo } from "react";
 //react router import 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import {signInWithPopup } from 'firebase/auth';
 // matrial ui  import
 import { Button, Divider } from "@mui/material";
@@ -12,9 +12,8 @@ import "./AuthLayout.scss";
 import { useResizeContext } from "../../context/resizeContext";
 import LoginSvg from "../../Assets/auth.svg";
 import { useFirebaseContext } from "../../context/firebaseContext";
-import { onGoogleLogin } from "../../api";
-import { ErrorToast, SuccessToast } from "../../utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ErrorToast } from "../../utils";
+import useAuth from "../../hooks/useAuth";
 
 
 
@@ -27,29 +26,12 @@ const AuthLayout = ({
   //context and third party hooks
   const deviceDimension = useResizeContext();
   const {auth,fbProvider} = useFirebaseContext();
-  const queryClient = useQueryClient();
+  const {googleLogin,loginAttempt,} = useAuth()
  
-  const navigate = useNavigate();
-  const mutation = useMutation({
-    mutationKey:['auth','google','login'],
-    mutationFn:onGoogleLogin,
-    onSuccess:(data) => {
-      SuccessToast('Login Successful')
-      //navigate to chat page if all login successfull
-      console.log('google data',data);
-      queryClient.setQueryData(['auth','login'], data);
-      navigate('/app/chat')
-    },
-    onError:(error) => {
-      let {errorMessage}= error;
-      console.log(error)
-      ErrorToast(errorMessage)
-    }
-  });
-   
+   console.log(loginAttempt)
   const handleGoogleLogin =  () => {
       signInWithPopup(auth, fbProvider).then((googleLoginInfo) => {
-        mutation.mutate({
+        googleLogin({
           name:googleLoginInfo.user.displayName,
           email:googleLoginInfo.user.email,
           emailVerified:googleLoginInfo.user.emailVerified,
@@ -74,8 +56,9 @@ const AuthLayout = ({
       <div
         className={`bg-slate-100 ${
           deviceDimension.deviceType >= 2 ? "col-span-6" : "col-span-12"
-        } pt-10 px-4`}
+        } pt-10 px-4 relative`}
       >
+        {loginAttempt<5 && <h5 className='w-full flex justify-center absolute font-bold top-0 left-0 mingle-danger-text'> {loginAttempt} Login Attempt Remaning.</h5>}
         <div className="font-bold mingle-primary-text text-center mingle-font-large">
           {pageTitle}
         </div>
@@ -111,6 +94,7 @@ const AuthLayout = ({
           Continue With Google
         </Button>
         </div>
+
 
       </div>
     </div>

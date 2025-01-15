@@ -10,46 +10,23 @@ import LoginIcon from '@mui/icons-material/Login';
 import LoadingButton from '@mui/lab/LoadingButton';
 //app file import
 import { AuthLayout } from '../../layout';
-import { onLogin } from '../../api';
-import { ErrorToast,SuccessToast } from '../../utils';
+import { ErrorToast } from '../../utils';
 import { loginValidationConfig , validate} from '../../config';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
+import useAuth from '../../hooks/useAuth';
 
 
 const SignIn = () => {
 // state define 
-
+const {login,isLoginPending,user} = useAuth();
+console.log('login user',user)
 const [loginInfo,setLoginInfo] =useState({
   email:'',
   password:''
 })
-const queryClient = useQueryClient();
-const [loginAttempt,setLoginAttempt]= useState(5);
 const [showPassword, setShowPassword] = React.useState(false);
-
-//context and third party hooks
-const navigate = useNavigate();
 
 // event handle
 const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-const mutation = useMutation({
-  mutationKey:['auth','email','login'],
-  mutationFn:onLogin,
-  onSuccess:(data) => {
-    SuccessToast('Login Successful')
-    queryClient.setQueryData(['auth','login'], data);
-    navigate('/app/chat')
-  },
-  onError:(err) => {
-    let {errorMessage,error}= err;
-    let loginAttemptRemaning = error.response.headers['ratelimit-remaining'];
-    setLoginAttempt(+loginAttemptRemaning)
-    ErrorToast(errorMessage)
-  }
-
-})
 
 const onUserLogin =  (e) => {
     e.preventDefault()
@@ -57,12 +34,9 @@ const onUserLogin =  (e) => {
     if(!validation.isValid){
       ErrorToast(validation.errors);
       return
-    }
-    
-    mutation.mutate(loginInfo)
-    // do call mutated here 
-    
-    
+    } 
+    login(loginInfo)
+    // do call mutated here    
   }
 
   
@@ -77,7 +51,6 @@ const onUserLogin =  (e) => {
   return (
     <AuthLayout pageTitle='Login here' pageDescription='Welcome back you’ve been missed!' descriptionClassName='mingle-font-normal font-bold'>
     <form className='py-4 px-4 relative' onSubmit={onUserLogin}  >
-      {loginAttempt<5 && <h5 className='w-full flex justify-center absolute font-bold bottom-0 left-0 mingle-danger-text'> {loginAttempt} Login Attempt Remaning.</h5>}
       <div className='my-4'>
         <TextField id="standard-basic"  name="email"  autoComplete="email" value={loginInfo.email} label="Enter Email/user id" variant="outlined" size="small" fullWidth onChange={(e) => onInputUpdate(e)} />
       </div>
@@ -114,7 +87,7 @@ const onUserLogin =  (e) => {
         </Button>
       </div>
       <div className='my-4 flex justify-center'>
-        <LoadingButton loading={mutation.isPending} disabled={mutation.isPending} type='submit' variant="contained" sx={{background:'var(--mingle-primary-color)',width:'100%'}} startIcon={<LoginIcon />}>Log in</LoadingButton>
+        <LoadingButton loading={isLoginPending} disabled={isLoginPending} type='submit' variant="contained" sx={{background:'var(--mingle-primary-color)',width:'100%'}} startIcon={<LoginIcon />}>Log in</LoadingButton>
       </div>
     </form>
     </AuthLayout>
