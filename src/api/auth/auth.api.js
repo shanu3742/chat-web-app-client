@@ -19,14 +19,12 @@ const onLogin = async ({email,password}) => {
 
 }
 
-const onGoogleLogin = async ({email,name,googleId,emailVerified,photoURL}) => {
+const onGoogleLogin = async ({googleToken}) => {
     try{
-        let result = await  authApi.post('googlelogin',{
-            email,
-            name,
-            googleId,
-            emailVerified,
-            photoURL
+        let result = await  authApi.get('googlelogin',{
+            headers:{
+                Authorization:`Bearer ${googleToken}`
+            }
         });
         let  data= result.data;
         return Promise.resolve(data)

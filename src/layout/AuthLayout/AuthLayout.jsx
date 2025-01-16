@@ -29,19 +29,20 @@ const AuthLayout = ({
   const {googleLogin,loginAttempt,} = useAuth()
  
    console.log(loginAttempt)
-  const handleGoogleLogin =  () => {
-      signInWithPopup(auth, fbProvider).then((googleLoginInfo) => {
-        googleLogin({
-          name:googleLoginInfo.user.displayName,
-          email:googleLoginInfo.user.email,
-          emailVerified:googleLoginInfo.user.emailVerified,
-          googleId:googleLoginInfo.user.uid,
-          photoURL:googleLoginInfo.user.photoURL
-  
-        })
-      }).catch((err) => {
-        ErrorToast(err)
-      })
+  const handleGoogleLogin = async () => {
+    try{
+    let googleLoginInfo = await  signInWithPopup(auth, fbProvider);
+    let googleToken = await googleLoginInfo.user.getIdToken();
+    console.log(googleToken)
+    googleLogin({
+      googleToken:googleToken,
+    })
+      
+      
+     
+    }catch(err){
+      ErrorToast(err)
+    }
       
       
   };
